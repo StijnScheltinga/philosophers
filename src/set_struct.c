@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/04/24 12:14:00 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:21:21 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int	set_rules(t_rules *rules, int argc, char **argv)
 		return (1);
 	}
 	rules->number_of_philosophers = ft_uatoi(argv[1]);
+	if (rules->number_of_philosophers > 20
+		|| rules->number_of_philosophers < 1)
+	{
+		printf("Number of philosophers must be between 1 and 20\n");
+		return (1);
+	}
 	rules->time_to_die = ft_uatoi(argv[2]);
 	rules->time_to_eat = ft_uatoi(argv[3]);
 	rules->time_to_sleep = ft_uatoi(argv[4]);

@@ -1,16 +1,17 @@
-SOURCES	=		main.c set_struct.c utils.c
+SOURCES	=		main.c set_struct.c utils.c create_threads.c
 SRC_DIR	=		src
 BUILD	=		build
 OBJECTS	=		$(addprefix $(BUILD)/, $(SOURCES:.c=.o))
 NAME	=		philo	
-FLAGS	=		-Wall -Werror -Wextra
+FLAGS	=		
 CC		=		gcc
 INCLUDE	=		-I inc/philo.h
+PTHREAD	=		-lpthread
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(CC) $(flags) -o $(NAME) $(OBJECTS)
+	$(CC) $(flags) -o $(NAME) $(OBJECTS) $(PTHREAD)
 
 $(BUILD)/%.o: $(SRC_DIR)/%.c | $(BUILD)
 	gcc -g $(FLAGS) $(INCLUDE) -c $< -o $@

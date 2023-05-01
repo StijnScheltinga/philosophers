@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/01 13:32:47 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:34:01 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,18 @@ int	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+int	calculate_timestamp(struct timeval *start_of_program)
+{
+	struct timeval	time_of_execution;
+	long			timestamp_sec;
+	long			timestamp_usec;
+
+	gettimeofday(&time_of_execution, NULL);
+	timestamp_sec = time_of_execution.tv_sec - start_of_program->tv_sec;
+	timestamp_usec = time_of_execution.tv_usec - start_of_program->tv_usec;
+	timestamp_usec += timestamp_sec * 1000000;
+	printf("microseconds: %ld\n", timestamp_usec);
+	return (0);
 }

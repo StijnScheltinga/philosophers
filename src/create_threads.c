@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:23:28 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/01 14:25:07 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:39:27 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void	*philo_start(void *philo_struct)
 
 	philo = (t_philo *)philo_struct;
 	printf("this is philosopher: %d\n", philo->philo_id);
+	if (philo->philo_id % 2 == 0)
+		//even_group
+	else
+		//uneven group
 	return (NULL);
 }
 
@@ -31,10 +35,8 @@ int	create_philosophers(t_data *data)
 	int			i;
 
 	philo_structs = malloc(data->number_of_philosophers * sizeof(t_philo));
-	if (!philo_structs)
-		return (1);
 	philo_threads = malloc(data->number_of_philosophers * sizeof(pthread_t));
-	if (!philo_structs)
+	if (!philo_structs || !philo_threads)
 		return (1);
 	i = 0;
 	while (i != data->number_of_philosophers)

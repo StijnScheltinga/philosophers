@@ -6,13 +6,13 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/04/24 14:21:21 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/01 13:32:08 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	set_rules(t_rules *rules, int argc, char **argv)
+int	set_data(t_data *data, int argc, char **argv)
 {
 	if (argc != 5 && argc != 6)
 	{
@@ -24,20 +24,20 @@ int	set_rules(t_rules *rules, int argc, char **argv)
 		printf("values can only be positive decimals\n");
 		return (1);
 	}
-	rules->number_of_philosophers = ft_uatoi(argv[1]);
-	if (rules->number_of_philosophers > 20
-		|| rules->number_of_philosophers < 1)
+	data->number_of_philosophers = ft_uatoi(argv[1]);
+	if (data->number_of_philosophers > 20
+		|| data->number_of_philosophers < 1)
 	{
 		printf("Number of philosophers must be between 1 and 20\n");
 		return (1);
 	}
-	rules->time_to_die = ft_uatoi(argv[2]);
-	rules->time_to_eat = ft_uatoi(argv[3]);
-	rules->time_to_sleep = ft_uatoi(argv[4]);
+	data->time_to_die = ft_uatoi(argv[2]);
+	data->time_to_eat = ft_uatoi(argv[3]);
+	data->time_to_sleep = ft_uatoi(argv[4]);
 	if (argv[5])
-		rules->number_of_times_each_philosopher_must_eat = ft_uatoi(argv[5]);
+		data->number_of_times_each_philosopher_must_eat = ft_uatoi(argv[5]);
 	else
-		rules->number_of_times_each_philosopher_must_eat = 0;
+		data->number_of_times_each_philosopher_must_eat = 0;
 	return (0);
 }
 

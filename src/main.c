@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:01:05 by sschelti          #+#    #+#             */
-/*   Updated: 2023/04/25 12:48:16 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/01 13:31:01 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	leaks(void)
 
 int	main(int argc, char **argv)
 {
-	t_rules	rules;
+	t_data	data;
 
 	atexit(leaks);
-	if (set_rules(&rules, argc, argv) == 1)
+	if (set_data(&data, argc, argv) == 1)
 		return (1);
-	print_struct(&rules);
-	if (create_philosophers(&rules) == 1)
+	print_struct(&data);
+	if (create_philosophers(&data) == 1)
 		return (1);
 	return (0);
 }

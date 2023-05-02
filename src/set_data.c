@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/01 15:45:54 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/02 12:56:48 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,28 @@ int	set_data(t_data *data, int argc, char **argv)
 		data->number_of_times_each_philosopher_must_eat = ft_uatoi(argv[5]);
 	else
 		data->number_of_times_each_philosopher_must_eat = 0;
+	return (0);
+}
+
+int	init_data(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->philo_structs = malloc(data->number_of_philosophers * sizeof(t_philo));
+	data->philo_threads = malloc(data->number_of_philosophers * sizeof(pthread_t));
+	data->forks = malloc(data->number_of_philosophers * sizeof(pthread_mutex_t));
+	if (!data->philo_structs || !data->philo_threads || !data->forks)
+		return (1);
+	while (i != data->number_of_philosophers)
+	{
+		data->philo_structs[i].philo_id = i + 1;
+		printf("bug: %d\n", data->philo_structs[i].philo_id);
+		// data->philo_structs[i].data = data;
+		// data->philo_structs[i].fork_l = data->forks[i];
+		// data->philo_structs[i].fork_l = data->forks[(i + 1) % data->number_of_philosophers];
+		i++;
+	}
 	return (0);
 }
 

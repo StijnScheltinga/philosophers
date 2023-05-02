@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:01:05 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/01 16:36:31 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/02 12:49:46 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ int	main(int argc, char **argv)
 	gettimeofday(&data.start_of_program, NULL);
 	if (set_data(&data, argc, argv) == 1)
 		return (1);
+	if (init_data(&data) == 1)
+		return (1);
 	print_struct(&data);
 	if (create_philosophers(&data) == 1)
 		return (1);
 	calculate_timestamp(&data.start_of_program);
+	freeall(&data);
 	return (0);
 }

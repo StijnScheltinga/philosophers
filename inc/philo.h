@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/01 16:27:38 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/02 12:39:42 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+typedef struct s_philo t_philo;
+
 typedef struct s_data{
 	unsigned int	number_of_philosophers;
 	unsigned int	time_to_die;
@@ -26,11 +28,16 @@ typedef struct s_data{
 	unsigned int	time_to_sleep;
 	unsigned int	number_of_times_each_philosopher_must_eat;
 	struct timeval	start_of_program;
+	t_philo			*philo_structs;
+	pthread_t		*philo_threads;
+	pthread_mutex_t	*forks;
 }	t_data;
 
 typedef struct s_philo{
-	int		philo_id;
-	t_data	*data;
+	int				philo_id;
+	pthread_mutex_t	fork_r;
+	pthread_mutex_t	fork_l;
+	t_data			*data;
 }	t_philo;
 
 int				set_data(t_data *data, int argc, char **argv);
@@ -44,5 +51,7 @@ unsigned int	ft_uatoi(const char *str);
 int				ft_strlen(const char *str);
 void			print_struct(t_data *data);
 void			*ft_test(void *in);
+void			freeall(t_data *data);
+int				init_data(t_data *data);
 
 #endif

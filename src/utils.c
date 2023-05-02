@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/01 16:34:01 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/02 12:49:02 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ int	calculate_timestamp(struct timeval *start_of_program)
 	timestamp_sec = time_of_execution.tv_sec - start_of_program->tv_sec;
 	timestamp_usec = time_of_execution.tv_usec - start_of_program->tv_usec;
 	timestamp_usec += timestamp_sec * 1000000;
-	printf("microseconds: %ld\n", timestamp_usec);
+	timestamp_usec /= 1000;
+	printf("ms: %ld\n", timestamp_usec);
 	return (0);
+}
+
+void	freeall(t_data *data)
+{
+	free(data->philo_structs);
+	free(data->philo_threads);
+	free(data->forks);
 }

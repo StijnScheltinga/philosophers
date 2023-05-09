@@ -1,4 +1,4 @@
-SOURCES	=		main.c set_data.c utils.c create_threads.c
+SOURCES	=		main.c set_data.c utils.c create_threads.c philo.c
 SRC_DIR	=		src
 BUILD	=		build
 OBJECTS	=		$(addprefix $(BUILD)/, $(SOURCES:.c=.o))

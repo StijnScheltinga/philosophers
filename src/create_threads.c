@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:23:28 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/02 14:37:08 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:53:57 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,14 @@ void	*philo_start(void *philo_struct)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_struct;
-	printf("this is philosopher: %d\n", philo->philo_id);
+	if (philo->philo_id % 2 == 0)
+		eat(philo);
+	else
+	{
+		usleep(100);
+		eat(philo);
+	}
+		
 
 	return (NULL);
 }

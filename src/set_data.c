@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/02 12:56:48 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:55:50 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	set_data(t_data *data, int argc, char **argv)
 		printf("Number of philosophers must be between 1 and 20\n");
 		return (1);
 	}
-	data->time_to_die = ft_uatoi(argv[2]);
-	data->time_to_eat = ft_uatoi(argv[3]);
-	data->time_to_sleep = ft_uatoi(argv[4]);
+	data->time_to_die = ft_uatoi(argv[2]) * 1000;
+	data->time_to_eat = ft_uatoi(argv[3]) * 1000;
+	data->time_to_sleep = ft_uatoi(argv[4]) * 1000;
 	if (argv[5])
 		data->number_of_times_each_philosopher_must_eat = ft_uatoi(argv[5]);
 	else
@@ -41,7 +41,7 @@ int	set_data(t_data *data, int argc, char **argv)
 	return (0);
 }
 
-int	init_data(t_data *data)
+int	set_philo(t_data *data)
 {
 	int	i;
 
@@ -54,10 +54,11 @@ int	init_data(t_data *data)
 	while (i != data->number_of_philosophers)
 	{
 		data->philo_structs[i].philo_id = i + 1;
-		printf("bug: %d\n", data->philo_structs[i].philo_id);
-		// data->philo_structs[i].data = data;
-		// data->philo_structs[i].fork_l = data->forks[i];
-		// data->philo_structs[i].fork_l = data->forks[(i + 1) % data->number_of_philosophers];
+		data->philo_structs[i].data = data;
+		data->philo_structs[i].fork_l = &data->forks[i];
+		pthread_mutex_init(&data->forks[i], NULL);
+		data->philo_structs[i].fork_r = &data->forks[(i + 1) % data->number_of_philosophers];
+		data->philo_structs[i].start_of_program = data->start_of_program;
 		i++;
 	}
 	return (0);

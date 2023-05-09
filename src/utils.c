@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/09 13:28:14 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:11:56 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ long	calculate_timestamp(struct timeval *start_of_program)
 	gettimeofday(&time_of_execution, NULL);
 	timestamp_sec = time_of_execution.tv_sec - start_of_program->tv_sec;
 	timestamp_usec = time_of_execution.tv_usec - start_of_program->tv_usec;
-	timestamp_usec += timestamp_sec * 1000000;
 	timestamp_usec /= 1000;
+	timestamp_usec += timestamp_sec * 1000;
 	return (timestamp_usec);
 }
 

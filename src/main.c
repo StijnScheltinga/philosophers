@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:01:05 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/09 12:24:47 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:05:00 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	main(int argc, char **argv)
 	print_struct(&data);
 	if (create_philosophers(&data) == 1)
 		return (1);
-	calculate_timestamp(&data.start_of_program);
 	freeall(&data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/09 13:55:50 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:59:21 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	set_philo(t_data *data)
 		pthread_mutex_init(&data->forks[i], NULL);
 		data->philo_structs[i].fork_r = &data->forks[(i + 1) % data->number_of_philosophers];
 		data->philo_structs[i].start_of_program = data->start_of_program;
+		data->philo_structs[i].num_of_times_eaten = 0;
 		i++;
 	}
 	return (0);

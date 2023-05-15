@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/09 16:59:21 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:20:42 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	set_data(t_data *data, int argc, char **argv)
 {
+	gettimeofday(&data->start_of_program, NULL);
 	if (argc != 5 && argc != 6)
 	{
 		printf("incorrect amount of arguments\n");
@@ -31,9 +32,9 @@ int	set_data(t_data *data, int argc, char **argv)
 		printf("Number of philosophers must be between 1 and 20\n");
 		return (1);
 	}
-	data->time_to_die = ft_uatoi(argv[2]) * 1000;
-	data->time_to_eat = ft_uatoi(argv[3]) * 1000;
-	data->time_to_sleep = ft_uatoi(argv[4]) * 1000;
+	data->time_to_die = ft_uatoi(argv[2]);
+	data->time_to_eat = ft_uatoi(argv[3]);
+	data->time_to_sleep = ft_uatoi(argv[4]);
 	if (argv[5])
 		data->number_of_times_each_philosopher_must_eat = ft_uatoi(argv[5]);
 	else
@@ -49,8 +50,10 @@ int	set_philo(t_data *data)
 	data->philo_structs = malloc(data->number_of_philosophers * sizeof(t_philo));
 	data->philo_threads = malloc(data->number_of_philosophers * sizeof(pthread_t));
 	data->forks = malloc(data->number_of_philosophers * sizeof(pthread_mutex_t));
-	if (!data->philo_structs || !data->philo_threads || !data->forks)
+	data->print_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!data->philo_structs || !data->philo_threads || !data->forks || !data->print_mutex)
 		return (1);
+	pthread_mutex_init(data->print_mutex, NULL);
 	while (i != data->number_of_philosophers)
 	{
 		data->philo_structs[i].philo_id = i + 1;

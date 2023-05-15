@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/09 15:11:56 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:30:26 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,37 @@ int	ft_strlen(const char *str)
 	return (i);
 }
 
-long	calculate_timestamp(struct timeval *start_of_program)
+long	calculate_timestamp(struct timeval *start)
 {
 	struct timeval	time_of_execution;
-	long			timestamp_sec;
-	long			timestamp_usec;
 
 	gettimeofday(&time_of_execution, NULL);
-	timestamp_sec = time_of_execution.tv_sec - start_of_program->tv_sec;
-	timestamp_usec = time_of_execution.tv_usec - start_of_program->tv_usec;
-	timestamp_usec /= 1000;
-	timestamp_usec += timestamp_sec * 1000;
-	return (timestamp_usec);
+	return (timestamp(time_of_execution) - timestamp(*start));
 }
 
-void	freeall(t_data *data)
+long long		timestamp(struct timeval time)
+{
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+void	accurate_usleep(unsigned int ms)
+{
+	struct timeval	start;
+	struct timeval	current;
+	
+
+	gettimeofday(&start, NULL);
+	while (1)
+	{
+		gettimeofday(&current, NULL);
+		if (timestamp(current) - timestamp(start) >= ms)
+			break;
+		usleep(75);
+	}
+	
+}
+
+int	freeall(t_data *data)
 {
 	int	i;
 
@@ -78,4 +94,6 @@ void	freeall(t_data *data)
 		i++;
 	}
 	free(data->forks);
+	free(data->print_mutex);
+	return (1);
 }

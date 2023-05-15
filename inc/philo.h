@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/09 16:58:14 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:18:47 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_data{
 	t_philo			*philo_structs;
 	pthread_t		*philo_threads;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	*print_mutex;
 }	t_data;
 
 typedef struct s_philo{
@@ -51,11 +52,13 @@ void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
 
 void			get_start_of_program(t_data *data);
-long			calculate_timestamp(struct timeval *start_of_program);
+long			calculate_timestamp(struct timeval *start);
 unsigned int	ft_uatoi(const char *str);
 int				ft_strlen(const char *str);
 void			print_struct(t_data *data);
 void			*ft_test(void *in);
-void			freeall(t_data *data);
+int				freeall(t_data *data);
+void			accurate_usleep(unsigned int ms);
+long long		timestamp(struct timeval time);
 
 #endif

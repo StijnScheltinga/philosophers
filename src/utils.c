@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/15 13:40:35 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:43:30 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	freeall(t_data *data)
 	free(data->philo_threads);
 	while (i != data->number_of_philosophers)
 	{
-		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->forks[i].mutex);
 		i++;
 	}
 	free(data->forks);

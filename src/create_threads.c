@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:23:28 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/15 14:18:14 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:27:06 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	*philo_start(void *philo_struct)
 	while (1)
 	{
 		philo_sleep(philo);
+		usleep(100);
 		philo_think(philo);
 		philo_eat(philo);
 	}

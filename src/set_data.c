@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/15 13:20:42 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:25:11 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	set_philo(t_data *data)
 	i = 0;
 	data->philo_structs = malloc(data->number_of_philosophers * sizeof(t_philo));
 	data->philo_threads = malloc(data->number_of_philosophers * sizeof(pthread_t));
-	data->forks = malloc(data->number_of_philosophers * sizeof(pthread_mutex_t));
+	data->forks = malloc(data->number_of_philosophers * sizeof(t_fork));
 	data->print_mutex = malloc(sizeof(pthread_mutex_t));
 	if (!data->philo_structs || !data->philo_threads || !data->forks || !data->print_mutex)
 		return (1);
@@ -59,8 +59,9 @@ int	set_philo(t_data *data)
 		data->philo_structs[i].philo_id = i + 1;
 		data->philo_structs[i].data = data;
 		data->philo_structs[i].fork_l = &data->forks[i];
-		pthread_mutex_init(&data->forks[i], NULL);
 		data->philo_structs[i].fork_r = &data->forks[(i + 1) % data->number_of_philosophers];
+		pthread_mutex_init(&data->forks[i].mutex, NULL);
+		data->forks[i].locked = 0;
 		data->philo_structs[i].start_of_program = data->start_of_program;
 		data->philo_structs[i].num_of_times_eaten = 0;
 		i++;

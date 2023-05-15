@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/15 13:30:26 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:40:35 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_strlen(const char *str)
 	return (i);
 }
 
-long	calculate_timestamp(struct timeval *start)
+long long	calculate_timestamp(struct timeval *start)
 {
 	struct timeval	time_of_execution;
 

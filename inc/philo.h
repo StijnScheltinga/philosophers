@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/15 13:18:47 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:13:23 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/time.h>
 
 typedef struct s_philo t_philo;
+typedef struct s_fork t_fork;
 
 typedef struct s_data{
 	unsigned int	number_of_philosophers;
@@ -30,18 +31,23 @@ typedef struct s_data{
 	struct timeval	start_of_program;
 	t_philo			*philo_structs;
 	pthread_t		*philo_threads;
-	pthread_mutex_t	*forks;
+	t_fork			*forks;
 	pthread_mutex_t	*print_mutex;
 }	t_data;
 
 typedef struct s_philo{
 	int				philo_id;
 	unsigned int	num_of_times_eaten;
-	pthread_mutex_t	*fork_l;
-	pthread_mutex_t *fork_r;
+	t_fork			*fork_l;
+	t_fork			*fork_r;
 	struct timeval	start_of_program;
 	t_data			*data;
 }	t_philo;
+
+typedef struct s_fork{
+	pthread_mutex_t mutex;
+	int				locked;
+}	t_fork;
 
 int				set_data(t_data *data, int argc, char **argv);
 int				check_values(int argc, char **argv);
@@ -50,14 +56,13 @@ void			*philo_start(void *philo_struct);
 int				set_philo(t_data *data);
 void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
+void			philo_think(t_philo *philo);
 
-void			get_start_of_program(t_data *data);
-long			calculate_timestamp(struct timeval *start);
 unsigned int	ft_uatoi(const char *str);
 int				ft_strlen(const char *str);
 void			print_struct(t_data *data);
-void			*ft_test(void *in);
 int				freeall(t_data *data);
+long long		calculate_timestamp(struct timeval *start);
 void			accurate_usleep(unsigned int ms);
 long long		timestamp(struct timeval time);
 

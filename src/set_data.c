@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/15 16:25:11 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:42:31 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	set_data(t_data *data, int argc, char **argv)
 {
 	gettimeofday(&data->start_of_program, NULL);
+	data->finished = 0;
 	if (argc != 5 && argc != 6)
 	{
 		printf("incorrect amount of arguments\n");
@@ -63,7 +64,7 @@ int	set_philo(t_data *data)
 		pthread_mutex_init(&data->forks[i].mutex, NULL);
 		data->forks[i].locked = 0;
 		data->philo_structs[i].start_of_program = data->start_of_program;
-		data->philo_structs[i].num_of_times_eaten = 0;
+		data->philo_structs[i].last_time_eaten = 0;
 		i++;
 	}
 	return (0);

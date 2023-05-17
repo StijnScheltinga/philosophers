@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:20:37 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/15 16:34:52 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/17 11:26:55 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	philo_eat(t_philo *philo)
 	printf("%lld %d is eating\n", calculate_timestamp(&philo->start_of_program), philo->philo_id);
 	pthread_mutex_unlock(philo->data->print_mutex);
 	accurate_usleep(philo->data->time_to_eat);
+	// usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(&philo->fork_l->mutex);
 	philo->fork_l->locked = 0;
 	pthread_mutex_unlock(&philo->fork_r->mutex);

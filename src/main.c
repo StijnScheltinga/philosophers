@@ -6,22 +6,16 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:01:05 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/15 13:28:09 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/17 11:33:46 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	leaks(void)
-{
-	system("leaks -s philo");
-}
-
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	atexit(leaks);
 	data.philo_structs = NULL;
 	data.philo_threads = NULL;
 	data.forks = NULL;

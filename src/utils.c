@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/20 16:36:15 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:55:35 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_strlen(const char *str)
 	return (i);
 }
 
-long long	calculate_timestamp(struct timeval *start)
+long long	cur_time(struct timeval *start)
 {
 	struct timeval	time_of_execution;
 
@@ -64,12 +64,11 @@ void	accurate_usleep(unsigned int ms, t_philo *philo)
 	{
 		gettimeofday(&current, NULL);
 		if (philo)
-			philo->last_time_eaten = calculate_timestamp(&philo->start_of_program);
+			philo->last_time_eaten = cur_time(&philo->start);
 		if (timestamp(current) - timestamp(start) >= ms)
 			break;
 		usleep(75);
 	}
-	
 }
 
 int	freeall(t_data *data)

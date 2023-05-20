@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/20 16:46:08 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:55:35 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	set_data(t_data *data, int argc, char **argv)
 		printf("values can only be positive decimals\n");
 		return (1);
 	}
-	if (!argv[1][0] || !argv[2][0] || !argv[3][0] || !argv[4][0] 
+	if (!argv[1][0] || !argv[2][0] || !argv[3][0] || !argv[4][0]
 		|| (argv[5] && !argv[5][0]))
 		return (1);
 	data->finished = 0;
@@ -36,7 +36,7 @@ int	set_data(t_data *data, int argc, char **argv)
 		data->max_eat = ft_uatoi(argv[5]);
 	else
 		data->max_eat = -1;
-	if (gettimeofday(&data->start_of_program, NULL) == -1)
+	if (gettimeofday(&data->start, NULL) == -1)
 		return (1);
 	return (0);
 }
@@ -45,7 +45,7 @@ int	set_philo(t_data *data)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	data->philo_str = malloc(data->num_of_philo * sizeof(t_philo));
 	data->philo_threads = malloc(data->num_of_philo * sizeof(pthread_t));
 	data->forks = malloc(data->num_of_philo * sizeof(t_fork));
@@ -55,10 +55,11 @@ int	set_philo(t_data *data)
 		return (1);
 	if (pthread_mutex_init(data->print_mutex, NULL) != 0)
 		return (1);
-	while (++i != data->num_of_philo)
+	while (i != data->num_of_philo)
 	{
 		if (set_individual_philo(data, i) == 1)
 			return (1);
+		i++;
 	}
 	return (0);
 }
@@ -72,7 +73,7 @@ int	set_individual_philo(t_data *data, int i)
 	if (pthread_mutex_init(&data->forks[i].mutex, NULL) != 0)
 		return (1);
 	data->forks[i].locked = 0;
-	data->philo_str[i].start_of_program = data->start_of_program;
+	data->philo_str[i].start = data->start;
 	data->philo_str[i].last_time_eaten = 0;
 	data->philo_str[i].eat_n = 0;
 	data->philo_str[i].finished = 0;

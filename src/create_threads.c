@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:23:28 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/20 16:36:15 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:52:20 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*philo_start(void *philo_struct)
 {
 	t_philo	*philo;
-	
+
 	philo = (t_philo *)philo_struct;
 	if (philo->philo_id % 2 != 0)
 		usleep(100);

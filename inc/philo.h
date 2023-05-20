@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/17 17:27:45 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:02:59 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_data{
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
-	unsigned int	number_of_times_each_philosopher_must_eat;
+	int				number_of_times_each_philosopher_must_eat;
 	unsigned int	finished;
 	struct timeval	start_of_program;
 	t_philo			*philo_structs;
@@ -42,6 +42,7 @@ typedef struct s_philo{
 	t_fork			*fork_r;
 	struct timeval	start_of_program;
 	long long		last_time_eaten;
+	int				eat_n;
 	t_data			*data;
 }	t_philo;
 
@@ -65,7 +66,7 @@ int				ft_strlen(const char *str);
 void			print_struct(t_data *data);
 int				freeall(t_data *data);
 long long		calculate_timestamp(struct timeval *start);
-void			accurate_usleep(unsigned int ms);
+void			accurate_usleep(unsigned int ms, t_philo *philo);
 long long		timestamp(struct timeval time);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/17 14:55:58 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 13:22:32 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ long long		timestamp(struct timeval time)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	accurate_usleep(unsigned int ms)
+void	accurate_usleep(unsigned int ms, t_philo *philo)
 {
 	struct timeval	start;
 	struct timeval	current;
@@ -73,6 +73,8 @@ void	accurate_usleep(unsigned int ms)
 	while (1)
 	{
 		gettimeofday(&current, NULL);
+		if (philo)
+			philo->last_time_eaten = calculate_timestamp(&philo->start_of_program);
 		if (timestamp(current) - timestamp(start) >= ms)
 			break;
 		usleep(75);

@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/17 16:42:31 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:03:41 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	set_data(t_data *data, int argc, char **argv)
 {
-	gettimeofday(&data->start_of_program, NULL);
 	data->finished = 0;
 	if (argc != 5 && argc != 6)
 	{
@@ -39,7 +38,8 @@ int	set_data(t_data *data, int argc, char **argv)
 	if (argv[5])
 		data->number_of_times_each_philosopher_must_eat = ft_uatoi(argv[5]);
 	else
-		data->number_of_times_each_philosopher_must_eat = 0;
+		data->number_of_times_each_philosopher_must_eat = -1;
+	gettimeofday(&data->start_of_program, NULL);
 	return (0);
 }
 
@@ -65,6 +65,7 @@ int	set_philo(t_data *data)
 		data->forks[i].locked = 0;
 		data->philo_structs[i].start_of_program = data->start_of_program;
 		data->philo_structs[i].last_time_eaten = 0;
+		data->philo_structs[i].eat_n = 0;
 		i++;
 	}
 	return (0);

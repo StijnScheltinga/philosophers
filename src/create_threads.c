@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:23:28 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/17 17:41:23 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:03:56 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	*philo_start(void *philo_struct)
 {
 	t_philo	*philo;
-	philo = (t_philo *)philo_struct;
 	
+	philo = (t_philo *)philo_struct;
 	if (philo->philo_id % 2 != 0)
 		usleep(100);
 	while (1)
@@ -26,6 +26,8 @@ void	*philo_start(void *philo_struct)
 			break ;
 		pthread_mutex_unlock(philo->data->print_mutex);
 		philo_eat(philo);
+		if (++philo->eat_n == philo->data->number_of_times_each_philosopher_must_eat)
+			break ;
 		philo_sleep(philo);
 		usleep(100);
 		philo_think(philo);

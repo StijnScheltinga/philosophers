@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:20:37 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/17 18:02:54 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:05:22 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	philo_eat(t_philo *philo)
 	if (philo->data->finished == 0)
 		printf("%lld %d is eating\n", calculate_timestamp(&philo->start_of_program), philo->philo_id);
 	pthread_mutex_unlock(philo->data->print_mutex);
-	accurate_usleep(philo->data->time_to_eat);
-	philo->last_time_eaten = calculate_timestamp(&philo->start_of_program);
+	accurate_usleep(philo->data->time_to_eat, philo);
 	pthread_mutex_unlock(&philo->fork_l->mutex);
 	philo->fork_l->locked = 0;
 	pthread_mutex_unlock(&philo->fork_r->mutex);
@@ -42,7 +41,7 @@ void	philo_sleep(t_philo *philo)
 	if (philo->data->finished == 0)
 		printf("%lld %d is sleeping\n", calculate_timestamp(&philo->start_of_program), philo->philo_id);
 	pthread_mutex_unlock(philo->data->print_mutex);
-	accurate_usleep(philo->data->time_to_sleep);
+	accurate_usleep(philo->data->time_to_sleep, NULL);
 }
 
 void	philo_think(t_philo *philo)
@@ -63,14 +62,18 @@ void	philo_check(t_data *data)
 	i = 0;
 	while (1)
 	{
-		if (calculate_timestamp(&data->start_of_program) - data->philo_structs[i].last_time_eaten >= data->time_to_die)
+		pthread_mutex_lock(data->print_mutex);
+		if (data->philo_structs[i].eat_n == data->number_of_times_each_philosopher_must_eat)
+			break ;
+		if (calculate_timestamp(&data->start_of_program) - data->philo_structs[i].last_time_eaten > data->time_to_die)
 		{
-			pthread_mutex_lock(data->print_mutex);
 			printf("%lld %d has died\n", calculate_timestamp(&data->start_of_program), data->philo_structs[i].philo_id);
 			data->finished = 1;
 			pthread_mutex_unlock(data->print_mutex);
 			break ;
 		}
+		pthread_mutex_unlock(data->print_mutex);
+		usleep(100);
 		i++;
 		i = i % data->number_of_philosophers;
 	}

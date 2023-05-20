@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/20 15:02:59 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:45:06 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-typedef struct s_philo t_philo;
-typedef struct s_fork t_fork;
+typedef struct s_philo	t_philo;
+typedef struct s_fork	t_fork;
 
 typedef struct s_data{
-	unsigned int	number_of_philosophers;
+	unsigned int	num_of_philo;
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
-	int				number_of_times_each_philosopher_must_eat;
+	int				max_eat;
 	unsigned int	finished;
 	struct timeval	start_of_program;
-	t_philo			*philo_structs;
+	t_philo			*philo_str;
 	pthread_t		*philo_threads;
 	t_fork			*forks;
 	pthread_mutex_t	*print_mutex;
@@ -38,16 +38,17 @@ typedef struct s_data{
 
 typedef struct s_philo{
 	int				philo_id;
+	t_data			*data;
 	t_fork			*fork_l;
 	t_fork			*fork_r;
 	struct timeval	start_of_program;
 	long long		last_time_eaten;
+	int				finished;
 	int				eat_n;
-	t_data			*data;
 }	t_philo;
 
 typedef struct s_fork{
-	pthread_mutex_t mutex;
+	pthread_mutex_t	mutex;
 	int				locked;
 }	t_fork;
 
@@ -56,6 +57,7 @@ int				check_values(int argc, char **argv);
 int				create_philosophers(t_data *data);
 void			*philo_start(void *philo_struct);
 int				set_philo(t_data *data);
+int				set_individual_philo(t_data *data, int i);
 void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
 void			philo_think(t_philo *philo);

@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/20 15:03:41 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:46:08 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	set_data(t_data *data, int argc, char **argv)
 {
-	data->finished = 0;
 	if (argc != 5 && argc != 6)
 	{
 		printf("incorrect amount of arguments\n");
@@ -25,21 +24,20 @@ int	set_data(t_data *data, int argc, char **argv)
 		printf("values can only be positive decimals\n");
 		return (1);
 	}
-	data->number_of_philosophers = ft_uatoi(argv[1]);
-	if (data->number_of_philosophers > 20
-		|| data->number_of_philosophers < 1)
-	{
-		printf("Number of philosophers must be between 1 and 20\n");
+	if (!argv[1][0] || !argv[2][0] || !argv[3][0] || !argv[4][0] 
+		|| (argv[5] && !argv[5][0]))
 		return (1);
-	}
+	data->finished = 0;
+	data->num_of_philo = ft_uatoi(argv[1]);
 	data->time_to_die = ft_uatoi(argv[2]);
 	data->time_to_eat = ft_uatoi(argv[3]);
 	data->time_to_sleep = ft_uatoi(argv[4]);
 	if (argv[5])
-		data->number_of_times_each_philosopher_must_eat = ft_uatoi(argv[5]);
+		data->max_eat = ft_uatoi(argv[5]);
 	else
-		data->number_of_times_each_philosopher_must_eat = -1;
-	gettimeofday(&data->start_of_program, NULL);
+		data->max_eat = -1;
+	if (gettimeofday(&data->start_of_program, NULL) == -1)
+		return (1);
 	return (0);
 }
 
@@ -47,27 +45,37 @@ int	set_philo(t_data *data)
 {
 	int	i;
 
-	i = 0;
-	data->philo_structs = malloc(data->number_of_philosophers * sizeof(t_philo));
-	data->philo_threads = malloc(data->number_of_philosophers * sizeof(pthread_t));
-	data->forks = malloc(data->number_of_philosophers * sizeof(t_fork));
+	i = -1;
+	data->philo_str = malloc(data->num_of_philo * sizeof(t_philo));
+	data->philo_threads = malloc(data->num_of_philo * sizeof(pthread_t));
+	data->forks = malloc(data->num_of_philo * sizeof(t_fork));
 	data->print_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!data->philo_structs || !data->philo_threads || !data->forks || !data->print_mutex)
+	if (!data->philo_str || !data->philo_threads
+		|| !data->forks || !data->print_mutex)
 		return (1);
-	pthread_mutex_init(data->print_mutex, NULL);
-	while (i != data->number_of_philosophers)
+	if (pthread_mutex_init(data->print_mutex, NULL) != 0)
+		return (1);
+	while (++i != data->num_of_philo)
 	{
-		data->philo_structs[i].philo_id = i + 1;
-		data->philo_structs[i].data = data;
-		data->philo_structs[i].fork_l = &data->forks[i];
-		data->philo_structs[i].fork_r = &data->forks[(i + 1) % data->number_of_philosophers];
-		pthread_mutex_init(&data->forks[i].mutex, NULL);
-		data->forks[i].locked = 0;
-		data->philo_structs[i].start_of_program = data->start_of_program;
-		data->philo_structs[i].last_time_eaten = 0;
-		data->philo_structs[i].eat_n = 0;
-		i++;
+		if (set_individual_philo(data, i) == 1)
+			return (1);
 	}
+	return (0);
+}
+
+int	set_individual_philo(t_data *data, int i)
+{
+	data->philo_str[i].philo_id = i + 1;
+	data->philo_str[i].data = data;
+	data->philo_str[i].fork_l = &data->forks[i];
+	data->philo_str[i].fork_r = &data->forks[(i + 1) % data->num_of_philo];
+	if (pthread_mutex_init(&data->forks[i].mutex, NULL) != 0)
+		return (1);
+	data->forks[i].locked = 0;
+	data->philo_str[i].start_of_program = data->start_of_program;
+	data->philo_str[i].last_time_eaten = 0;
+	data->philo_str[i].eat_n = 0;
+	data->philo_str[i].finished = 0;
 	return (0);
 }
 

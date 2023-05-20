@@ -6,21 +6,11 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/20 13:22:32 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:36:15 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
-
-void	print_struct(t_data *data)
-{
-	printf("philosophers: %u\n", data->number_of_philosophers);
-	printf("time to die: %u\n", data->time_to_die);
-	printf("time to eat: %u\n", data->time_to_eat);
-	printf("time to sleep: %u\n", data->time_to_sleep);
-	printf("number of times each philosopher must eat: ");
-	printf("%u\n", data->number_of_times_each_philosopher_must_eat);
-}
 
 unsigned int	ft_uatoi(const char *str)
 {
@@ -87,14 +77,15 @@ int	freeall(t_data *data)
 	int	i;
 
 	i = 0;
-	free(data->philo_structs);
+	free(data->philo_str);
 	free(data->philo_threads);
-	while (i != data->number_of_philosophers)
+	pthread_mutex_destroy(data->print_mutex);
+	free(data->print_mutex);
+	while (i != data->num_of_philo)
 	{
 		pthread_mutex_destroy(&data->forks[i].mutex);
 		i++;
 	}
 	free(data->forks);
-	free(data->print_mutex);
 	return (1);
 }

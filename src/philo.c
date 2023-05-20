@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:20:37 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/20 15:05:22 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:36:15 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ void	philo_check(t_data *data)
 	while (1)
 	{
 		pthread_mutex_lock(data->print_mutex);
-		if (data->philo_structs[i].eat_n == data->number_of_times_each_philosopher_must_eat)
+		if (data->philo_str[i].eat_n == data->max_eat)
 			break ;
-		if (calculate_timestamp(&data->start_of_program) - data->philo_structs[i].last_time_eaten > data->time_to_die)
+		if (calculate_timestamp(&data->start_of_program) - data->philo_str[i].last_time_eaten > data->time_to_die)
 		{
-			printf("%lld %d has died\n", calculate_timestamp(&data->start_of_program), data->philo_structs[i].philo_id);
+			printf("%lld %d has died\n", calculate_timestamp(&data->start_of_program), data->philo_str[i].philo_id);
 			data->finished = 1;
 			pthread_mutex_unlock(data->print_mutex);
 			break ;
@@ -75,6 +75,6 @@ void	philo_check(t_data *data)
 		pthread_mutex_unlock(data->print_mutex);
 		usleep(100);
 		i++;
-		i = i % data->number_of_philosophers;
+		i = i % data->num_of_philo;
 	}
 }

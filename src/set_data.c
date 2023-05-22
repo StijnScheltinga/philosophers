@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/20 16:55:35 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:25:17 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	set_data(t_data *data, int argc, char **argv)
 		data->max_eat = ft_uatoi(argv[5]);
 	else
 		data->max_eat = -1;
-	if (gettimeofday(&data->start, NULL) == -1)
-		return (1);
 	return (0);
 }
 
@@ -46,14 +44,16 @@ int	set_philo(t_data *data)
 	int	i;
 
 	i = 0;
-	data->philo_str = malloc(data->num_of_philo * sizeof(t_philo));
+	data->phi_str = malloc(data->num_of_philo * sizeof(t_philo));
 	data->philo_threads = malloc(data->num_of_philo * sizeof(pthread_t));
 	data->forks = malloc(data->num_of_philo * sizeof(t_fork));
-	data->print_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!data->philo_str || !data->philo_threads
-		|| !data->forks || !data->print_mutex)
+	data->general_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!data->phi_str || !data->philo_threads
+		|| !data->forks || !data->general_mutex)
 		return (1);
-	if (pthread_mutex_init(data->print_mutex, NULL) != 0)
+	if (pthread_mutex_init(data->general_mutex, NULL) != 0)
+		return (1);
+	if (gettimeofday(&data->start, NULL) == -1)
 		return (1);
 	while (i != data->num_of_philo)
 	{
@@ -66,17 +66,17 @@ int	set_philo(t_data *data)
 
 int	set_individual_philo(t_data *data, int i)
 {
-	data->philo_str[i].philo_id = i + 1;
-	data->philo_str[i].data = data;
-	data->philo_str[i].fork_l = &data->forks[i];
-	data->philo_str[i].fork_r = &data->forks[(i + 1) % data->num_of_philo];
+	data->phi_str[i].i = i + 1;
+	data->phi_str[i].data = data;
+	data->phi_str[i].fork_l = &data->forks[i];
+	data->phi_str[i].fork_r = &data->forks[(i + 1) % data->num_of_philo];
 	if (pthread_mutex_init(&data->forks[i].mutex, NULL) != 0)
 		return (1);
 	data->forks[i].locked = 0;
-	data->philo_str[i].start = data->start;
-	data->philo_str[i].last_time_eaten = 0;
-	data->philo_str[i].eat_n = 0;
-	data->philo_str[i].finished = 0;
+	data->phi_str[i].start = data->start;
+	data->phi_str[i].last_time_eaten = 0;
+	data->phi_str[i].eat_n = 0;
+	data->phi_str[i].finished = 0;
 	return (0);
 }
 
@@ -101,4 +101,23 @@ int	check_values(int argc, char **argv)
 		j++;
 	}
 	return (0);
+}
+
+unsigned int	ft_uatoi(const char *str)
+{
+	unsigned int	res;
+	int				i;
+
+	res = 0;
+	i = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		res = res * 10 + (str[i] - '0');
+		i++;
+	}
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/20 16:55:35 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:23:34 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ typedef struct s_data{
 	int				max_eat;
 	unsigned int	finished;
 	struct timeval	start;
-	t_philo			*philo_str;
+	t_philo			*phi_str;
 	pthread_t		*philo_threads;
 	t_fork			*forks;
-	pthread_mutex_t	*print_mutex;
+	pthread_mutex_t	*general_mutex;
 }	t_data;
 
 typedef struct s_philo{
-	int				philo_id;
+	int				i;
 	t_data			*data;
 	t_fork			*fork_l;
 	t_fork			*fork_r;
@@ -68,7 +68,7 @@ int				ft_strlen(const char *str);
 void			print_struct(t_data *data);
 int				freeall(t_data *data);
 long long		cur_time(struct timeval *start);
-void			accurate_usleep(unsigned int ms, t_philo *philo);
+void			accurate_usleep(unsigned int ms);
 long long		timestamp(struct timeval time);
 
 #endif

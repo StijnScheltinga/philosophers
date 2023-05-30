@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/22 14:23:34 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:34:12 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int				check_values(int argc, char **argv);
 int				create_philosophers(t_data *data);
 void			*philo_start(void *philo_struct);
 int				set_philo(t_data *data);
-int				set_individual_philo(t_data *data, int i);
+int				set_individual_philo(t_data *data, unsigned int i);
 void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
 void			philo_think(t_philo *philo);

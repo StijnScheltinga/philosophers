@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:23:28 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/22 14:28:51 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:36:02 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	*philo_start(void *phi_struct)
 
 int	create_philosophers(t_data *data)
 {
-	int		i;
-	void	*phi;
+	unsigned int	i;
+	void			*phi;
 
 	i = 0;
 	phi = NULL;

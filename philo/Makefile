@@ -3,7 +3,7 @@ SRC_DIR	=		src
 BUILD	=		build
 OBJECTS	=		$(addprefix $(BUILD)/, $(SOURCES:.c=.o))
 NAME	=		philo	
-FLAGS	=		
+FLAGS	=		-Wall -Werror -Wextra
 CC		=		gcc
 INCLUDE	=		-I inc/philo.h
 PTHREAD	=		-lpthread

@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/22 15:25:21 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:35:31 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	accurate_usleep(unsigned int ms)
 
 int	freeall(t_data *data)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
 	free(data->phi_str);

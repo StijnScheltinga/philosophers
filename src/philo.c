@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:20:37 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/22 14:31:23 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:53:47 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_lock(&philo->fork_l->mutex);
 	pthread_mutex_lock(philo->data->general_mutex);
 	if (philo->data->finished == 0)
-		printf("%lld %d has taken a fork.\n", cur_time(&philo->start), philo->i);
+		printf("%lld %d has taken a fork\n", cur_time(&philo->start), philo->i);
 	philo->fork_l->locked = 1;
 	pthread_mutex_unlock(philo->data->general_mutex);
 	pthread_mutex_lock(&philo->fork_r->mutex);
@@ -27,7 +27,7 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_lock(philo->data->general_mutex);
 	if (philo->data->finished == 0)
 	{
-		printf("%lld %d has taken a fork.\n", cur_time(&philo->start), philo->i);
+		printf("%lld %d has taken a fork\n", cur_time(&philo->start), philo->i);
 		printf("%lld %d is eating\n", cur_time(&philo->start), philo->i);
 	}
 	safe_time_to_eat = philo->data->time_to_eat;
@@ -84,7 +84,7 @@ void	philo_check(t_data *data)
 			break ;
 		}
 		pthread_mutex_unlock(data->general_mutex);
-		usleep(100);
+		usleep (50);
 		i++;
 		i = i % data->num_of_philo;
 	}

@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/30 15:34:12 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/30 16:58:49 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-typedef struct s_philo	t_philo;
-typedef struct s_fork	t_fork;
+typedef struct s_philo		t_philo;
+typedef struct s_fork		t_fork;
+typedef struct s_finished	t_finished;
 
 typedef struct s_data{
 	unsigned int	num_of_philo;
@@ -28,12 +29,13 @@ typedef struct s_data{
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	int				max_eat;
-	unsigned int	finished;
+	t_finished		*finished;
 	struct timeval	start;
 	t_philo			*phi_str;
 	pthread_t		*philo_threads;
 	t_fork			*forks;
-	pthread_mutex_t	*general_mutex;
+	pthread_mutex_t	*print_mutex;
+	pthread_mutex_t	*locked_mutex;
 }	t_data;
 
 typedef struct s_philo{
@@ -44,6 +46,8 @@ typedef struct s_philo{
 	struct timeval	start;
 	long long		last_time_eaten;
 	int				finished;
+	unsigned int	safe_time_to_eat;
+	unsigned int	safe_time_to_sleep;
 	int				eat_n;
 }	t_philo;
 
@@ -51,6 +55,11 @@ typedef struct s_fork{
 	pthread_mutex_t	mutex;
 	int				locked;
 }	t_fork;
+
+typedef struct s_finished{
+	pthread_mutex_t mutex;
+	unsigned int	finished;
+}	t_finished;
 
 int				set_data(t_data *data, int argc, char **argv);
 int				check_values(int argc, char **argv);
@@ -62,6 +71,7 @@ void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
 void			philo_think(t_philo *philo);
 void			philo_check(t_data *data);
+void			print_update(char *str, char *str_2, t_philo *philo);
 
 unsigned int	ft_uatoi(const char *str);
 int				ft_strlen(const char *str);
@@ -70,5 +80,6 @@ int				freeall(t_data *data);
 long long		cur_time(struct timeval *start);
 void			accurate_usleep(unsigned int ms);
 long long		timestamp(struct timeval time);
+void			set_fork_lock(t_fork *fork, int value, t_philo *philo);
 
 #endif

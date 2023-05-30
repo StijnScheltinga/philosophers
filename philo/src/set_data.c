@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/30 15:33:49 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:09:07 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	set_data(t_data *data, int argc, char **argv)
 	if (!argv[1][0] || !argv[2][0] || !argv[3][0] || !argv[4][0]
 		|| (argv[5] && !argv[5][0]))
 		return (1);
-	data->finished = 0;
 	data->num_of_philo = ft_uatoi(argv[1]);
 	data->time_to_die = ft_uatoi(argv[2]);
 	data->time_to_eat = ft_uatoi(argv[3]);
@@ -47,11 +46,16 @@ int	set_philo(t_data *data)
 	data->phi_str = malloc(data->num_of_philo * sizeof(t_philo));
 	data->philo_threads = malloc(data->num_of_philo * sizeof(pthread_t));
 	data->forks = malloc(data->num_of_philo * sizeof(t_fork));
-	data->general_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!data->phi_str || !data->philo_threads
-		|| !data->forks || !data->general_mutex)
+	data->print_mutex = malloc(sizeof(pthread_mutex_t));
+	data->finished = malloc(sizeof(t_finished));
+	data->locked_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!data->phi_str || !data->philo_threads || !data->locked_mutex
+		|| !data->forks || !data->print_mutex || !data->finished)
 		return (1);
-	if (pthread_mutex_init(data->general_mutex, NULL) != 0)
+	data->finished->finished = 0;
+	if (pthread_mutex_init(data->print_mutex, NULL) != 0
+		|| pthread_mutex_init(&data->finished->mutex, NULL) != 0
+		||	pthread_mutex_init(data->locked_mutex, NULL) != 0)
 		return (1);
 	if (gettimeofday(&data->start, NULL) == -1)
 		return (1);
@@ -77,6 +81,8 @@ int	set_individual_philo(t_data *data, unsigned int i)
 	data->phi_str[i].last_time_eaten = 0;
 	data->phi_str[i].eat_n = 0;
 	data->phi_str[i].finished = 0;
+	data->phi_str[i].safe_time_to_eat = data->time_to_eat;
+	data->phi_str[i].safe_time_to_sleep = data->time_to_sleep;
 	return (0);
 }
 

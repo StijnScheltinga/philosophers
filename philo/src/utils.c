@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/30 15:55:55 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:29:03 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	freeall(t_data *data)
 	free(data->print_mutex);
 	while (i != data->num_of_philo)
 	{
-		pthread_mutex_destroy(&data->forks[i].mutex);
+		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
 	free(data->forks);

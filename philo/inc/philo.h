@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/05/30 16:58:49 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:10:47 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
 typedef struct s_philo		t_philo;
-typedef struct s_fork		t_fork;
-typedef struct s_finished	t_finished;
 
 typedef struct s_data{
 	unsigned int	num_of_philo;
@@ -29,37 +28,28 @@ typedef struct s_data{
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	int				max_eat;
-	t_finished		*finished;
+	bool			fin_bool;
 	struct timeval	start;
 	t_philo			*phi_str;
 	pthread_t		*philo_threads;
-	t_fork			*forks;
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	*print_mutex;
-	pthread_mutex_t	*locked_mutex;
+	pthread_mutex_t *general_mutex;
+	pthread_mutex_t *fin_mutex;
 }	t_data;
 
 typedef struct s_philo{
 	int				i;
 	t_data			*data;
-	t_fork			*fork_l;
-	t_fork			*fork_r;
+	pthread_mutex_t	*fork_l;
+	pthread_mutex_t	*fork_r;
 	struct timeval	start;
 	long long		last_time_eaten;
-	int				finished;
+	bool			finished;
 	unsigned int	safe_time_to_eat;
 	unsigned int	safe_time_to_sleep;
 	int				eat_n;
 }	t_philo;
-
-typedef struct s_fork{
-	pthread_mutex_t	mutex;
-	int				locked;
-}	t_fork;
-
-typedef struct s_finished{
-	pthread_mutex_t mutex;
-	unsigned int	finished;
-}	t_finished;
 
 int				set_data(t_data *data, int argc, char **argv);
 int				check_values(int argc, char **argv);
@@ -69,7 +59,6 @@ int				set_philo(t_data *data);
 int				set_individual_philo(t_data *data, unsigned int i);
 void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
-void			philo_think(t_philo *philo);
 void			philo_check(t_data *data);
 void			print_update(char *str, char *str_2, t_philo *philo);
 
@@ -80,6 +69,5 @@ int				freeall(t_data *data);
 long long		cur_time(struct timeval *start);
 void			accurate_usleep(unsigned int ms);
 long long		timestamp(struct timeval time);
-void			set_fork_lock(t_fork *fork, int value, t_philo *philo);
 
 #endif

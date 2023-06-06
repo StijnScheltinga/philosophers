@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:20:37 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/06 17:39:48 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:59:10 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,25 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_check(t_data *data)
 {
-	int			i;
-	long long	last_eat;
+	int				i;
+	long long		last_eat;
+	unsigned int	philos_finished;
 
 	i = 0;
 	last_eat = 0;
+	philos_finished = 0;
 	while (1)
 	{
 		pthread_mutex_lock(data->eat_mutex);
 		if (data->phi_str[i].eat_n == data->max_eat)
 		{
-			pthread_mutex_unlock(data->eat_mutex);
-			break ;
+			philos_finished++;
+			data->phi_str[i].eat_n++;
 		}
 		last_eat = data->phi_str[i].last_eat;
 		pthread_mutex_unlock(data->eat_mutex);
+		if (philos_finished == data->num_of_philo)
+			break ;
 		if (cur_time(&data->start) - last_eat >= data->time_to_die)
 		{
 			print_update("has died", NULL, NULL, &data->phi_str[i]);

@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/06 14:33:33 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:36:37 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,13 @@ int	set_philo(t_data *data)
 	data->philo_threads = malloc(data->num_of_philo * sizeof(pthread_t));
 	data->forks = malloc(data->num_of_philo * sizeof(pthread_mutex_t));
 	data->print_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!data->phi_str || !data->philo_threads
+	data->finished_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!data->phi_str || !data->philo_threads || !data->finished_mutex
 		|| !data->forks || !data->print_mutex)
 		return (1);
-	if (pthread_mutex_init(data->print_mutex, NULL) != 0)
+	data->finished = false;
+	if (pthread_mutex_init(data->print_mutex, NULL) != 0
+		|| pthread_mutex_init(data->finished_mutex, NULL) != 0)
 		return (1);
 	if (gettimeofday(&data->start, NULL) == -1)
 		return (1);
@@ -72,8 +75,6 @@ int	set_individual_philo(t_data *data, unsigned int i)
 	if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 		return (1);
 	data->phi_str[i].start = data->start;
-	data->phi_str[i].safe_time_to_eat = data->time_to_eat;
-	data->phi_str[i].safe_time_to_sleep = data->time_to_sleep;
 	return (0);
 }
 

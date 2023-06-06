@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:23:28 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/06 14:46:28 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:37:03 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,16 @@ void	*philo_start(void *phi_struct)
 		accurate_usleep(philo->data->time_to_eat);
 	while (1)
 	{
+		pthread_mutex_lock(philo->data->finished_mutex);
+		if (philo->data->finished == true)
+		{
+			pthread_mutex_unlock(philo->data->finished_mutex);
+			break;
+		}
+		pthread_mutex_unlock(philo->data->finished_mutex);
 		philo_eat(philo);
 		philo_sleep(philo);
-		print_update("is thinking", philo);
+		print_update("is thinking", NULL, philo);
 	}
 	return (NULL);
 }

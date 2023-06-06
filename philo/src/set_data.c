@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/06 12:10:52 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:33:33 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,10 @@ int	set_philo(t_data *data)
 	data->philo_threads = malloc(data->num_of_philo * sizeof(pthread_t));
 	data->forks = malloc(data->num_of_philo * sizeof(pthread_mutex_t));
 	data->print_mutex = malloc(sizeof(pthread_mutex_t));
-	data->fin_mutex = malloc(sizeof(pthread_mutex_t));
-	data->general_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!data->phi_str || !data->philo_threads || !data->fin_mutex
-		|| !data->forks || !data->print_mutex || !data->general_mutex)
+	if (!data->phi_str || !data->philo_threads
+		|| !data->forks || !data->print_mutex)
 		return (1);
-	data->fin_bool = false;
-	if (pthread_mutex_init(data->print_mutex, NULL) != 0
-		|| pthread_mutex_init(data->fin_mutex, NULL) != 0
-		|| pthread_mutex_init(data->general_mutex, NULL) != 0)
+	if (pthread_mutex_init(data->print_mutex, NULL) != 0)
 		return (1);
 	if (gettimeofday(&data->start, NULL) == -1)
 		return (1);
@@ -77,9 +72,6 @@ int	set_individual_philo(t_data *data, unsigned int i)
 	if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 		return (1);
 	data->phi_str[i].start = data->start;
-	data->phi_str[i].last_time_eaten = 0;
-	data->phi_str[i].eat_n = 0;
-	data->phi_str[i].finished = false;
 	data->phi_str[i].safe_time_to_eat = data->time_to_eat;
 	data->phi_str[i].safe_time_to_sleep = data->time_to_sleep;
 	return (0);

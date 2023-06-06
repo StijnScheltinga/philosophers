@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/06 12:10:47 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:46:18 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,11 @@ typedef struct s_data{
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	int				max_eat;
-	bool			fin_bool;
 	struct timeval	start;
 	t_philo			*phi_str;
 	pthread_t		*philo_threads;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*print_mutex;
-	pthread_mutex_t *general_mutex;
-	pthread_mutex_t *fin_mutex;
 }	t_data;
 
 typedef struct s_philo{
@@ -44,11 +41,8 @@ typedef struct s_philo{
 	pthread_mutex_t	*fork_l;
 	pthread_mutex_t	*fork_r;
 	struct timeval	start;
-	long long		last_time_eaten;
-	bool			finished;
 	unsigned int	safe_time_to_eat;
 	unsigned int	safe_time_to_sleep;
-	int				eat_n;
 }	t_philo;
 
 int				set_data(t_data *data, int argc, char **argv);
@@ -60,7 +54,7 @@ int				set_individual_philo(t_data *data, unsigned int i);
 void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
 void			philo_check(t_data *data);
-void			print_update(char *str, char *str_2, t_philo *philo);
+void			print_update(char *str, t_philo *philo);
 
 unsigned int	ft_uatoi(const char *str);
 int				ft_strlen(const char *str);

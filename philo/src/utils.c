@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/06 11:29:03 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:47:19 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	accurate_usleep(unsigned int ms)
 		gettimeofday(&current, NULL);
 		if (timestamp(current) - timestamp(start) >= ms)
 			break ;
-		usleep(75);
+		usleep(300);
 	}
 }
 

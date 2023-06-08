@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/08 12:57:47 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:54:40 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_data{
 	bool			finished;
 	struct timeval	start;
 	t_philo			*phi_str;
-	pthread_t		*philo_threads;
+	pthread_t		*phi_t;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*print_mutex;
 	pthread_mutex_t	*finished_mutex;
@@ -59,7 +59,7 @@ int				set_philo(t_data *data);
 int				set_individual_philo(t_data *data, unsigned int i);
 void			philo_eat(t_philo *philo);
 void			philo_check(t_data *data);
-void			print_update(char *s, char *s2, char *s3, t_philo *philo);
+void			print_update(char *s, char *s2, t_philo *philo);
 void			check_max_eat(t_data *data, int i);
 
 unsigned int	ft_uatoi(const char *str);

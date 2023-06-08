@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:20:37 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/08 13:09:31 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:53:29 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	philo_eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->fork_l);
+	print_update("has taken a fork", NULL, philo);
 	pthread_mutex_lock(philo->fork_r);
-	print_update("has taken a fork", "has taken a fork", "is eating", philo);
+	print_update("has taken a fork", "is eating", philo);
 	pthread_mutex_lock(philo->data->eat_mutex);
 		philo->last_eat = cur_time(&philo->data->start);
 	pthread_mutex_unlock(philo->data->eat_mutex);
@@ -37,7 +38,7 @@ void	philo_check(t_data *data)
 			break ;
 		if (cur_time(&data->start) - data->last_eat >= data->time_to_die)
 		{
-			print_update("died", NULL, NULL, &data->phi_str[i]);
+			print_update("died", NULL, &data->phi_str[i]);
 			pthread_mutex_lock(data->finished_mutex);
 			data->finished = true;
 			pthread_mutex_unlock(data->finished_mutex);
@@ -60,7 +61,7 @@ void	check_max_eat(t_data *data, int i)
 	pthread_mutex_unlock(data->eat_mutex);
 }
 
-void	print_update(char *s, char *s2, char *s3, t_philo *philo)
+void	print_update(char *s, char *s2, t_philo *philo)
 {
 	pthread_mutex_lock(philo->data->finished_mutex);
 	if (philo->data->finished == false)
@@ -70,8 +71,6 @@ void	print_update(char *s, char *s2, char *s3, t_philo *philo)
 		printf("%lld %d %s\n", cur_time(&philo->start), philo->i, s);
 		if (s2)
 			printf("%lld %d %s\n", cur_time(&philo->start), philo->i, s2);
-		if (s3)
-			printf("%lld %d %s\n", cur_time(&philo->start), philo->i, s3);
 		pthread_mutex_unlock(philo->data->print_mutex);
 	}
 	else

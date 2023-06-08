@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/08 13:04:05 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:13:31 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int	set_philo(t_data *data)
 
 	i = -1;
 	data->phi_str = malloc(data->num_of_philo * sizeof(t_philo));
-	data->philo_threads = malloc(data->num_of_philo * sizeof(pthread_t));
+	data->phi_t = malloc(data->num_of_philo * sizeof(pthread_t));
 	data->forks = malloc(data->num_of_philo * sizeof(pthread_mutex_t));
 	data->print_mutex = malloc(sizeof(pthread_mutex_t));
 	data->finished_mutex = malloc(sizeof(pthread_mutex_t));
 	data->eat_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!data->phi_str || !data->philo_threads || !data->finished_mutex
+	if (!data->phi_str || !data->phi_t || !data->finished_mutex
 		|| !data->forks || !data->print_mutex || !data->eat_mutex)
 		return (1);
 	data->finished = false;

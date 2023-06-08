@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/08 12:03:19 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:57:47 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_data{
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	unsigned int	max_eat;
+	unsigned int	philos_finished;
+	long long		last_eat;
 	bool			finished;
 	struct timeval	start;
 	t_philo			*phi_str;
@@ -52,12 +54,13 @@ int				set_data(t_data *data, int argc, char **argv);
 int				check_values(int argc, char **argv);
 int				create_philosophers(t_data *data);
 void			*philo_start(void *philo_struct);
+void			philo_routine(t_philo *philo);
 int				set_philo(t_data *data);
 int				set_individual_philo(t_data *data, unsigned int i);
 void			philo_eat(t_philo *philo);
-void			philo_sleep(t_philo *philo);
 void			philo_check(t_data *data);
 void			print_update(char *s, char *s2, char *s3, t_philo *philo);
+void			check_max_eat(t_data *data, int i);
 
 unsigned int	ft_uatoi(const char *str);
 int				ft_strlen(const char *str);

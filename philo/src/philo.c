@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:20:37 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/06 17:59:10 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:09:31 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,19 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_unlock(philo->fork_r);
 }
 
-void	philo_sleep(t_philo *philo)
-{
-	print_update("is sleeping", NULL, NULL, philo);
-	accurate_usleep(philo->data->time_to_sleep);
-}
-
 void	philo_check(t_data *data)
 {
 	int				i;
-	long long		last_eat;
-	unsigned int	philos_finished;
 
 	i = 0;
-	last_eat = 0;
-	philos_finished = 0;
 	while (1)
 	{
-		pthread_mutex_lock(data->eat_mutex);
-		if (data->phi_str[i].eat_n == data->max_eat)
-		{
-			philos_finished++;
-			data->phi_str[i].eat_n++;
-		}
-		last_eat = data->phi_str[i].last_eat;
-		pthread_mutex_unlock(data->eat_mutex);
-		if (philos_finished == data->num_of_philo)
+		check_max_eat(data, i);
+		if (data->philos_finished == data->num_of_philo)
 			break ;
-		if (cur_time(&data->start) - last_eat >= data->time_to_die)
+		if (cur_time(&data->start) - data->last_eat >= data->time_to_die)
 		{
-			print_update("has died", NULL, NULL, &data->phi_str[i]);
+			print_update("died", NULL, NULL, &data->phi_str[i]);
 			pthread_mutex_lock(data->finished_mutex);
 			data->finished = true;
 			pthread_mutex_unlock(data->finished_mutex);
@@ -63,6 +46,18 @@ void	philo_check(t_data *data)
 		i++;
 		i = i % data->num_of_philo;
 	}
+}
+
+void	check_max_eat(t_data *data, int i)
+{
+	pthread_mutex_lock(data->eat_mutex);
+	if (data->phi_str[i].eat_n == data->max_eat)
+	{
+		data->philos_finished++;
+		data->phi_str[i].eat_n++;
+	}
+	data->last_eat = data->phi_str[i].last_eat;
+	pthread_mutex_unlock(data->eat_mutex);
 }
 
 void	print_update(char *s, char *s2, char *s3, t_philo *philo)

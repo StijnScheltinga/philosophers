@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/06 17:16:05 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:04:05 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	set_data(t_data *data, int argc, char **argv)
 		data->max_eat = ft_uatoi(argv[5]);
 	else
 		data->max_eat = -1;
+	data->last_eat = 0;
+	data->philos_finished = 0;
 	return (0);
 }
 
@@ -42,7 +44,7 @@ int	set_philo(t_data *data)
 {
 	unsigned int	i;
 
-	i = 0;
+	i = -1;
 	data->phi_str = malloc(data->num_of_philo * sizeof(t_philo));
 	data->philo_threads = malloc(data->num_of_philo * sizeof(pthread_t));
 	data->forks = malloc(data->num_of_philo * sizeof(pthread_mutex_t));
@@ -59,11 +61,10 @@ int	set_philo(t_data *data)
 		return (1);
 	if (gettimeofday(&data->start, NULL) == -1)
 		return (1);
-	while (i != data->num_of_philo)
+	while (++i != data->num_of_philo)
 	{
 		if (set_individual_philo(data, i) == 1)
 			return (1);
-		i++;
 	}
 	return (0);
 }

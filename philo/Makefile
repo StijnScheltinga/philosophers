@@ -7,13 +7,14 @@ FLAGS	=		-Wall -Werror -Wextra
 CC		=		gcc
 INCLUDE	=		-I inc/philo.h
 PTHREAD	=		-lpthread
+HEADER	=		inc/philo.h
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	$(CC) $(FLAGS) -o $(NAME) $(OBJECTS) $(PTHREAD)
 
-$(BUILD)/%.o: $(SRC_DIR)/%.c | $(BUILD)
+$(BUILD)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(BUILD)
 	gcc -g $(FLAGS) $(INCLUDE) -c $< -o $@
 
 $(BUILD):

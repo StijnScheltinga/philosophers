@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:12:12 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/09 13:19:31 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:12:00 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void			philo_check(t_data *data);
 void			print_update(char *s, char *s2, t_philo *philo);
 void			check_max_eat(t_data *data, int i);
 int				detach_threads(t_data *data, int i);
+int				join_threads(t_data *data, int i);
 
 unsigned int	ft_uatoi(const char *str);
 int				ft_strlen(const char *str);

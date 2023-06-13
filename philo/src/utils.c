@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:27:00 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/08 17:27:40 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:57:01 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,16 @@ int	freeall(t_data *data)
 	i = 0;
 	free(data->phi_str);
 	free(data->phi_t);
-	pthread_mutex_destroy(data->print_mutex);
-	pthread_mutex_destroy(data->finished_mutex);
-	pthread_mutex_destroy(data->eat_mutex);
+	if (data->print_mutex)
+		pthread_mutex_destroy(data->print_mutex);
+	if (data->finished_mutex)
+		pthread_mutex_destroy(data->finished_mutex);
+	if (data->eat_mutex)
+		pthread_mutex_destroy(data->eat_mutex);
 	free(data->print_mutex);
 	free(data->finished_mutex);
 	free(data->eat_mutex);
-	while (i != data->num_of_philo)
+	while (i != data->num_of_philo && data->forks)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;

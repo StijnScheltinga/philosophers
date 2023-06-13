@@ -14,7 +14,7 @@ $(NAME): $(OBJECTS)
 	$(CC) $(flags) -o $(NAME) $(OBJECTS) $(PTHREAD)
 
 $(BUILD)/%.o: $(SRC_DIR)/%.c | $(BUILD)
-	gcc $(FLAGS) $(INCLUDE) -c $< -o $@
+	gcc -g $(FLAGS) $(INCLUDE) -c $< -o $@
 
 $(BUILD):
 	@mkdir -p $(BUILD)

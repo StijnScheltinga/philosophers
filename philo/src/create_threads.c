@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:23:28 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/09 13:21:14 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:18:32 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,10 @@ int	create_philosophers(t_data *data)
 	{
 		phi = (void *)&data->phi_str[i];
 		if (pthread_create(&data->phi_t[i], NULL, &philo_start, phi) != 0)
-			break ;
+			return (join_threads(data, i));
 		i++;
 	}
-	if (i != data->num_of_philo)
-		return (detach_threads(data, i));
-	else
-		philo_check(data);
+	philo_check(data);
 	i = 0;
 	while (i != data->num_of_philo)
 	{

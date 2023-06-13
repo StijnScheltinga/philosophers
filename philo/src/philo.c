@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:20:37 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/09 13:19:18 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:14:42 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,18 @@ void	print_update(char *s, char *s2, t_philo *philo)
 		pthread_mutex_unlock(philo->data->finished_mutex);
 }
 
-int	detach_threads(t_data *data, int i)
+int	join_threads(t_data *data, int i)
 {
 	int	j;
 
 	j = 0;
-	while (j <= i)
-	{
-		pthread_detach(data->phi_t[j]);
-		j++;
-	}
 	pthread_mutex_lock(data->finished_mutex);
 	data->finished = true;
 	pthread_mutex_unlock(data->finished_mutex);
-	accurate_usleep(data->time_to_die);
-	accurate_usleep(data->time_to_eat);
-	accurate_usleep(data->time_to_sleep);
+	while (j <= i)
+	{
+		pthread_join(data->phi_t[j], NULL);
+		j++;
+	}
 	return (1);
 }

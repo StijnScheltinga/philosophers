@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:48:59 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/08 17:13:31 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:44:43 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ int	set_philo(t_data *data)
 		|| pthread_mutex_init(data->finished_mutex, NULL) != 0
 		|| pthread_mutex_init(data->eat_mutex, NULL) != 0)
 		return (1);
-	if (gettimeofday(&data->start, NULL) == -1)
-		return (1);
+	gettimeofday(&data->start, NULL);
 	while (++i != data->num_of_philo)
 	{
 		if (set_individual_philo(data, i) == 1)
@@ -91,10 +90,6 @@ int	check_values(int argc, char **argv)
 	i = 0;
 	while (j != argc)
 	{
-		while (argv[j][i] == 32 || (argv[j][i] >= 9 && argv[j][i] <= 13))
-			i++;
-		if (argv[j][i] == '+')
-			i++;
 		while (argv[j][i] >= '0' && argv[j][i] <= '9')
 			i++;
 		if (i != ft_strlen(argv[j]))

@@ -11,7 +11,7 @@ PTHREAD	=		-lpthread
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(CC) $(flags) -o $(NAME) $(OBJECTS) $(PTHREAD)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJECTS) $(PTHREAD)
 
 $(BUILD)/%.o: $(SRC_DIR)/%.c | $(BUILD)
 	gcc -g $(FLAGS) $(INCLUDE) -c $< -o $@

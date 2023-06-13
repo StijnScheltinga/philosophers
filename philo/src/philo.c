@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:20:37 by sschelti          #+#    #+#             */
-/*   Updated: 2023/06/13 12:14:42 by sschelti         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:48:07 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	philo_eat(t_philo *philo)
 void	philo_check(t_data *data)
 {
 	int				i;
+	long long		time;
 
 	i = 0;
 	while (1)
@@ -36,12 +37,15 @@ void	philo_check(t_data *data)
 		check_max_eat(data, i);
 		if (data->philos_finished == data->num_of_philo)
 			break ;
-		if (cur_time(&data->start) - data->last_eat >= data->time_to_die)
+		time = cur_time(&data->start);
+		if (time - data->last_eat >= data->time_to_die)
 		{
-			print_update("died", NULL, &data->phi_str[i]);
 			pthread_mutex_lock(data->finished_mutex);
 			data->finished = true;
 			pthread_mutex_unlock(data->finished_mutex);
+			pthread_mutex_lock(data->print_mutex);
+			printf("%lld %d %s\n", time, data->phi_str[i].i, "died");
+			pthread_mutex_unlock(data->print_mutex);
 			break ;
 		}
 		i++;
@@ -66,12 +70,12 @@ void	print_update(char *s, char *s2, t_philo *philo)
 	pthread_mutex_lock(philo->data->finished_mutex);
 	if (philo->data->finished == false)
 	{
-		pthread_mutex_unlock(philo->data->finished_mutex);
 		pthread_mutex_lock(philo->data->print_mutex);
 		printf("%lld %d %s\n", cur_time(&philo->start), philo->i, s);
 		if (s2)
 			printf("%lld %d %s\n", cur_time(&philo->start), philo->i, s2);
 		pthread_mutex_unlock(philo->data->print_mutex);
+		pthread_mutex_unlock(philo->data->finished_mutex);
 	}
 	else
 		pthread_mutex_unlock(philo->data->finished_mutex);
